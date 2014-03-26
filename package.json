@@ -1,0 +1,27 @@
+{
+  "name": "thor2",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/velveteer/thor2"
+  },
+  "author": "Josh Miller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/velveteer/thor2/issues"
+  },
+  "homepage": "https://github.com/velveteer/thor2",
+  "dependencies": {
+    "co": "~3.0.5",
+    "co-mssql": "~0.1.1",
+    "underscore.string": "~2.3.3",
+    "co-monk": "~1.0.0",
+    "monk": "~0.8.1",
+    "moment": "~2.5.1"
+  }
+}
