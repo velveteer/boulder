@@ -1,4 +1,3 @@
-/*jshint multistr: true */
 /*jshint esnext: true */
 var _s = require('underscore.string');
 var moment = require('moment');
