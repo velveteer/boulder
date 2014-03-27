@@ -18,10 +18,12 @@
   "homepage": "https://github.com/velveteer/thor2",
   "dependencies": {
     "co": "~3.0.5",
-    "co-mssql": "~0.1.1",
-    "underscore.string": "~2.3.3",
     "co-monk": "~1.0.0",
+    "co-mssql": "~0.1.1",
+    "co-rethinkdb": "^0.2.1",
+    "moment": "~2.5.1",
     "monk": "~0.8.1",
-    "moment": "~2.5.1"
+    "rethinkdb": "^1.12.0-0",
+    "underscore.string": "~2.3.3"
   }
 }
