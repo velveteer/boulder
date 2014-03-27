@@ -50,12 +50,12 @@ co(function* () {
     /* Iterate over records, insert them into Rethink
        Then push the insert results into an array (returnVals: true) */
     for (var record in recordset) {
-      try { 
+      try {
         results.push(yield r.table('chats').insert(recordset[record],{returnVals: true}));
         process.stdout.write("Inserting chat " + recordset[record].chatID + "\r");
       } catch (ex) { console.dir(ex.err); }
     }
-    
+
     console.log("\nInserted " + results.length + " chats.");
 
     var requestTrans = new mssql.Request(connection);
@@ -82,7 +82,7 @@ co(function* () {
 
     console.log("Inserted " + transArr.length + " chat messages.");
 
-  } catch (ex) { console.dir(ex); 
+  } catch (ex) { console.dir(ex);
   } finally {
     connection.close();
     conn.close();
