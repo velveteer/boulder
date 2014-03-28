@@ -1,27 +1,29 @@
 {
-  "name": "thor2",
+  "name": "boulder",
   "version": "0.0.0",
-  "description": "",
+  "description": "ReST API for BoldChat data.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/velveteer/thor2"
+    "url": "https://github.com/velveteer/boulder"
   },
   "author": "Josh Miller",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/velveteer/thor2/issues"
+    "url": "https://github.com/velveteer/boulder/issues"
   },
-  "homepage": "https://github.com/velveteer/thor2",
+  "homepage": "https://github.com/velveteer/boulder",
   "dependencies": {
     "co": "~3.0.5",
     "co-mssql": "~0.1.1",
     "underscore.string": "~2.3.3",
     "co-monk": "~1.0.0",
     "monk": "~0.8.1",
-    "moment": "~2.5.1"
+    "moment": "~2.5.1",
+    "koa": "^0.5.2",
+    "koa-route": "^1.1.1"
   }
 }
