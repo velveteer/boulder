@@ -1,6 +1,6 @@
 SELECT
 CAST(c.chatID as varchar(255)) as chatID,
-MAX(c.answered) as answerDate,
+MAX(c.answered) as answeredAt,
 MAX(c.chatName) AS customerName,
 MAX(o.name) as rackerName,
 MAX(o.userName) AS rackerSSO,

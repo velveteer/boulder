@@ -17,7 +17,7 @@ chats.remove();
 
 /* Set up transcripts collection */
 var transcripts = wrap(db.get('transcripts'));
-transcripts.ensureIndex( { messageID: 1 }, { unique: true } );
+transcripts.ensureIndex( { chatID: 1 } );
 transcripts.remove();
 
 /* Load SQL into memory */
@@ -51,35 +51,32 @@ co(function* () {
     var recordset = yield request.query(chatSql);
     var results = [];
     var transArr = [];
-    /* Insert each MSSQL row into chats collection
-     * Push inserted document into results array
-     * Chats that already exist in Mongo will not be inserted and
-     * thus will not be added to the MSSQL query for transcripts */
+    /* Atomically insert each returned MSSQL row into chats collection
+     * Unique index on chats ensures no duplicate data */
     for (var record in recordset) {
       try {
         results.push(yield chats.insert(recordset[record]));
         process.stdout.write("Inserting chat " + recordset[record].chatID + "\r");
-        /* If a chat already exists in Mongo
-        *  then we catch the duplicate key error here */
       } catch (ex) { console.dir(ex.err); }
     }
 
     console.log("\nInserted " + results.length + " chats.");
 
     var requestTrans = new mssql.Request(connection);
-    /* For each inserted chat document query for its transcripts */
+    /* For each successfully inserted chat document we query MSSQL for its transcripts */
     for (var chat in results) {
       process.stdout.write("Pulling transcripts for " + results[chat].chatID + "\r");
       requestTrans.input('chatID', mssql.VarChar, results[chat].chatID);
       var tranSet = yield requestTrans.query(tranSql);
-      /* Iterate over returned transcript rows for each MSSQL query */
+      /* Iterate over returned transcript rows for each chatID
+      *  We will insert these in bulk since we don't have to worry
+      *  about duplicate transcripts */
       for (var tran in tranSet) {
-        /* Strip HTML from transcript text */
+        /* Strip HTML from transcript text, thanks BoldChat */
         var text = tranSet[tran].text;
         text = _s.unescapeHTML(text);
         text = _s.stripTags(text);
         tranSet[tran].text = text;
-        /* Push each transcript into array for Mongo bulk insert */
         transArr.push(tranSet[tran]);
       }
     }
