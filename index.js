@@ -23,23 +23,23 @@ function* chatList() {
 
 /* Grab chats by SSO */
 function* chatsBySSO(sso) {
-  var _sso   = decodeURI(sso);
+  var _sso  = decodeURI(sso);
   var res   = yield chats.find({rackerSSO: _sso}, {limit: 200});
   this.body = res;
 }
 
 /* Pull one chat by chatID */
 function* chatByID(chatID) {
-  var _chatID   = decodeURI(chatID);
-  var res       = yield chats.findOne({chatID: _chatID});
-  this.body     = res;
+  var _chatID = decodeURI(chatID);
+  var res     = yield chats.findOne({chatID: _chatID});
+  this.body   = res;
 }
 
 /* Pull all transcripts for a chat */
 function* transcripts(chatID) {
-  var _chatID   = decodeURI(chatID);
-  var res       = yield trans.find({chatID: _chatID},{sort:{createdAt: 1}});
-  this.body     = res;
+  var _chatID = decodeURI(chatID);
+  var res     = yield trans.find({chatID: _chatID},{sort:{createdAt: 1}});
+  this.body   = res;
 }
 
 /* Averages for EOCR and chat counts */
@@ -52,15 +52,15 @@ function* metrics(sso) {
   this.body       = obj;
 }
 
+/* Averages helper function */
 function averages(array) {
   var eocr  = [];
   var arr   = _.filter(array, function(item) { return !!item.chatRating;});
-  _.each(arr, function(chat) {
-    eocr.push(parseInt(chat.chatRating));
+  _.each(arr, function(item) {
+    eocr.push(parseInt(item.chatRating));
   });
-  var sum = _.reduce(eocr, function(acc, num) { return acc + num;}, 0);
+  var sum   = _.reduce(eocr, function(acc, num) { return acc + num;}, 0);
   return ((sum/eocr.length).toFixed(2))/1;
 }
-
 
 if (!module.parent) app.listen(3000);
