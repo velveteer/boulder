@@ -9,41 +9,43 @@ var db    = monk('localhost/test');
 var chats = wrap(db.get('chats'));
 var trans = wrap(db.get('transcripts'));
 
-app.use(route.get('/chat', chatList));
-app.use(route.get('/chat/:chatid', chatByID));
-app.use(route.get('/sso/:sso', chatsBySSO));
-app.use(route.get('/metrics/:sso', metrics));
-app.use(route.get('/transcripts/:chatid', transcripts));
-
+var _chats = {
 /* List all chats */
-function* chatList() {
-  var res   = yield chats.find({});
-  this.body = res;
-}
+  list: function* () {
+    var res   = yield chats.find({}, {sort:{answeredAt: -1}, limit: 200});
+    this.body = res;
+  },
 
 /* Grab chats by SSO */
-function* chatsBySSO(sso) {
-  var _sso  = decodeURI(sso);
-  var res   = yield chats.find({rackerSSO: _sso}, {limit: 200});
-  this.body = res;
-}
+  sso: function* (sso) {
+    var _sso  = decodeURI(sso);
+    var res   = yield chats.find({rackerSSO: _sso}, {limit: 200});
+    this.body = res;
+  },
 
-/* Pull one chat by chatID */
-function* chatByID(chatID) {
-  var _chatID = decodeURI(chatID);
-  var res     = yield chats.findOne({chatID: _chatID});
-  this.body   = res;
-}
+  /* Pull one chat by chatID */
+  id: function* (chatID) {
+    var _chatID = decodeURI(chatID);
+    var res     = yield chats.findOne({chatID: _chatID});
+    this.body   = res;
+  },
+
+  ddi: function* (ddi) {
+    var _ddi  = decodeURI(ddi);
+    var res   = yield chats.find({cloudAccount:ddi});
+    this.body = res;
+  }
+};
 
 /* Pull all transcripts for a chat */
-function* transcripts(chatID) {
+function* _transcripts(chatID) {
   var _chatID = decodeURI(chatID);
   var res     = yield trans.find({chatID: _chatID},{sort:{createdAt: 1}});
   this.body   = res;
 }
 
 /* Averages for EOCR and chat counts */
-function* metrics(sso) {
+function* _metrics(sso) {
   var _sso        = decodeURI(sso);
   var obj         = {};
   var chatsArr    = yield chats.find({rackerSSO: _sso});
@@ -62,5 +64,12 @@ function averages(array) {
   var sum   = _.reduce(eocr, function(acc, num) { return acc + num;}, 0);
   return ((sum/eocr.length).toFixed(2))/1;
 }
+
+app.use(route.get('/chats', _chats.list));
+app.use(route.get('/chats/:chatid', _chats.id));
+app.use(route.get('/chats/sso/:sso', _chats.sso));
+app.use(route.get('/chats/ddi/:ddi', _chats.ddi));
+app.use(route.get('/metrics/:sso', _metrics));
+app.use(route.get('/transcripts/:chatid', _transcripts));
 
 if (!module.parent) app.listen(3000);
