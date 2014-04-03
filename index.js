@@ -23,13 +23,14 @@ var _chats = {
     this.body = res;
   },
 
-  /* Pull one chat by chatID */
+/* Pull one chat by chatID */
   id: function* (chatID) {
     var _chatID = decodeURI(chatID);
     var res     = yield chats.findOne({chatID: _chatID});
     this.body   = res;
   },
 
+/* Pull chats by customer DDI */
   ddi: function* (ddi) {
     var _ddi  = decodeURI(ddi);
     var res   = yield chats.find({cloudAccount:ddi});
@@ -65,6 +66,7 @@ function averages(array) {
   return ((sum/eocr.length).toFixed(2))/1;
 }
 
+/* Routes */
 app.use(route.get('/chats', _chats.list));
 app.use(route.get('/chats/:chatid', _chats.id));
 app.use(route.get('/chats/sso/:sso', _chats.sso));
@@ -73,3 +75,4 @@ app.use(route.get('/metrics/:sso', _metrics));
 app.use(route.get('/transcripts/:chatid', _transcripts));
 
 if (!module.parent) app.listen(3000);
+console.log("Listening on port 3000");
