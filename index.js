@@ -67,12 +67,12 @@ function averages(array) {
 }
 
 /* Routes */
-app.use(route.get('/chats', _chats.list));
-app.use(route.get('/chats/:chatid', _chats.id));
-app.use(route.get('/chats/sso/:sso', _chats.sso));
-app.use(route.get('/chats/ddi/:ddi', _chats.ddi));
-app.use(route.get('/metrics/:sso', _metrics));
-app.use(route.get('/transcripts/:chatid', _transcripts));
+app.use(route.get('/api/chats', _chats.list));
+app.use(route.get('/api/chats/:chatid', _chats.id));
+app.use(route.get('/api/chats/sso/:sso', _chats.sso));
+app.use(route.get('/api/chats/ddi/:ddi', _chats.ddi));
+app.use(route.get('/api/metrics/:sso', _metrics));
+app.use(route.get('/api/transcripts/:chatid', _transcripts));
 
 if (!module.parent) app.listen(3000);
 console.log("Listening on port 3000");
