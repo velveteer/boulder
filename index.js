@@ -33,7 +33,7 @@ var _chats = {
 /* Pull chats by customer DDI */
   ddi: function* (ddi) {
     var _ddi  = decodeURI(ddi);
-    var res   = yield chats.find({cloudAccount:ddi});
+    var res   = yield chats.find({cloudAccount:ddi}, {sort:{answeredAt: -1}});
     this.body = res;
   }
 };
