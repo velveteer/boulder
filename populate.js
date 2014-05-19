@@ -1,4 +1,4 @@
-/*jshint esnext: true */
+/* jshint esnext: true */
 var _s = require('underscore.string');
 var co = require('co');
 var fs = require('fs');
@@ -7,30 +7,30 @@ var monk = require('monk');
 var mssql = require('co-mssql');
 var wrap = require('co-monk');
 
-/* Initialize MongoDB connection */
+// Initialize MongoDB connection
 var db = monk('localhost/test');
 
-/* Set up chats collection */
+// Set up chats collection
 var chats = wrap(db.get('chats'));
 chats.ensureIndex( { chatID: 1 }, { unique: true } );
 chats.remove();
 
-/* Set up transcripts collection */
+// Set up transcripts collection
 var transcripts = wrap(db.get('transcripts'));
 transcripts.ensureIndex( { chatID: 1 } );
 transcripts.remove();
 
-/* Load SQL into memory */
+// Load SQL into memory
 var chatSql = fs.readFileSync('chats.sql', 'utf-8');
 var tranSql = fs.readFileSync('transcripts.sql', 'utf-8');
 
-/* Grab date so we can pull chats per day */
+// Grab date so we can pull chats per day
 var day = moment().format("DD");
 var month = moment().format("MM");
 var year = moment().format("YYYY");
 
 co(function* () {
-  /* Initialize MSSQL connection */
+  // Initialize MSSQL connection
   var connection = new mssql.Connection({
     user: process.env.DW_USER,
     password: process.env.DW_PASS,
@@ -43,7 +43,7 @@ co(function* () {
     yield connection.connect();
 
     var request = new mssql.Request(connection);
-    /* Inject date into MSSQL query */
+    // Inject date into MSSQL query
     request.input('day', mssql.VarChar, day);
     request.input('month', mssql.VarChar, month);
     request.input('year', mssql.VarChar, year);
@@ -63,7 +63,7 @@ co(function* () {
     console.log("\nInserted " + results.length + " chats.");
 
     var requestTrans = new mssql.Request(connection);
-    /* For each successfully inserted chat document we query MSSQL for its transcripts */
+    // For each successfully inserted chat document we query MSSQL for its transcripts
     for (var chat in results) {
       process.stdout.write("Pulling transcripts for " + results[chat].chatID + "\r");
       requestTrans.input('chatID', mssql.VarChar, results[chat].chatID);
@@ -72,7 +72,7 @@ co(function* () {
       *  We will insert these in bulk since we don't have to worry
       *  about duplicate transcripts */
       for (var tran in tranSet) {
-        /* Strip HTML from transcript text, thanks BoldChat */
+        // Strip HTML from transcript text, thanks BoldChat
         var text = tranSet[tran].text;
         text = _s.unescapeHTML(text);
         text = _s.stripTags(text);
@@ -81,7 +81,7 @@ co(function* () {
       }
     }
 
-    /* Bulk insert transcripts */
+    // Bulk insert transcripts
     try { yield transcripts.insert(transArr); }
     catch (ex) { console.dir(ex); }
     console.log("\nBulk inserted " + transArr.length + " chat messages.");
