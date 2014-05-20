@@ -76,6 +76,7 @@ co(function* () {
         var text = tranSet[tran].text;
         text = _s.unescapeHTML(text);
         text = _s.stripTags(text);
+        text = text.replace(/[&]nbsp[;]/gi," ");
         tranSet[tran].text = text;
         transArr.push(tranSet[tran]);
       }
