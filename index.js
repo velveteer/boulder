@@ -42,6 +42,13 @@ var _chats = {
     var _core  = decodeURI(core);
     var res   = yield chats.find({coreAccount:_core}, {sort:{answeredAt: -1}});
     this.body = res;
+  },
+
+// Pull chats by E&A account
+  ea: function* (ea) {
+    var _ea   = decodeURI(ea);
+    var res   = yield chats.find({emailAccount:_ea}, {sort:{answeredAt: -1}});
+    this.body = res;
   }
 };
 
@@ -79,6 +86,7 @@ app.use(route.get('/api/chats/:chatid', _chats.id));
 app.use(route.get('/api/chats/sso/:sso', _chats.sso));
 app.use(route.get('/api/chats/ddi/:ddi', _chats.ddi));
 app.use(route.get('/api/chats/core/:core', _chats.core));
+app.use(route.get('/api/chats/ea/:ea', _chats.ea));
 app.use(route.get('/api/metrics/:sso', _metrics));
 app.use(route.get('/api/transcripts/:chatid', _transcripts));
 

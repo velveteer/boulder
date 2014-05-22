@@ -6,6 +6,7 @@ MAX(o.name) as rackerName,
 MAX(o.userName) AS rackerSSO,
 MAX(tmp.DDI) AS cloudAccount,
 MAX(c.visitInfo) AS coreAccount,
+MAX(tmp.EA) AS emailAccount,
 MAX(d.Name) as chatDept,
 MAX(tmp.NPS) AS chatRating,
 MAX(s.name) AS chatStatus
@@ -16,10 +17,11 @@ INNER JOIN SetupItemInfo s ON c.userStatusID = s.setupItemID
 INNER JOIN
     (SELECT cf.chatID,
     (SELECT cf.value WHERE cf.name = 'DDI') AS DDI,
+    (SELECT cf.value WHERE cf.name = 'AccountNumber') AS EA,
     (SELECT cf.value WHERE cf.name = 'NPS Rating') AS NPS
     FROM ChatCustomFieldsInfo cf
         INNER JOIN ChatInfo c ON cf.chatID = c.chatID
-    WHERE cf.name = 'DDI' OR cf.name= 'NPS Rating') AS tmp
+    WHERE cf.name = 'DDI' OR cf.name = 'NPS Rating' OR cf.name = 'AccountNumber') AS tmp
     ON tmp.chatID = c.chatID
 WHERE (DATEPART(yy, c.answered) = @year
 AND DATEPART(mm, c.answered) = @month
