@@ -24,11 +24,10 @@ var _chats = {
     // Grab chats by SSO
     sso: function * (sso) {
         var _sso = decodeURI(sso);
-        var res = yield chats.find({
-            rackerSSO: _sso
-        }, {
-            limit: 200
-        });
+        var res = yield chats.find(
+            { rackerSSO: _sso },
+            { sort: { answeredAt: -1 }, limit: 200 }
+        );
         this.body = res;
     },
 
