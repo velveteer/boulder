@@ -1,3 +1,4 @@
+console.time('time');
 /*jshint esnext: true*/
 var co = require('co');
 var mssql = require('co-mssql');
@@ -86,5 +87,6 @@ co(function* () {
   } finally {
     connection.close();
     conn.close();
+    console.timeEnd('time');
   }
 })();
