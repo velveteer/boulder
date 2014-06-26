@@ -1,15 +1,15 @@
 SELECT
-CAST(c.chatID as varchar(255)) as chatID,
-MAX(c.answered) as answeredAt,
-MAX(c.chatName) AS customerName,
-MAX(o.name) as rackerName,
-MAX(o.userName) AS rackerSSO,
-MAX(tmp.DDI) AS cloudAccount,
-MAX(c.visitInfo) AS coreAccount,
-MAX(tmp.EA) AS emailAccount,
-MAX(d.Name) as chatDept,
-MAX(tmp.NPS) AS chatRating,
-MAX(s.name) AS chatStatus
+CAST(c.chatID as varchar(255)) as chat_id,
+MAX(c.answered) as answered_at,
+MAX(c.chatName) AS customer_name,
+MAX(o.name) as racker_name,
+MAX(o.userName) AS racker_sso,
+MAX(tmp.DDI) AS cloud_account,
+MAX(c.visitInfo) AS core_account,
+MAX(tmp.EA) AS email_account,
+MAX(d.Name) as chat_dept,
+MAX(tmp.NPS) AS chat_rating,
+MAX(s.name) AS chat_status
 FROM ChatInfo c
 INNER JOIN OperatorInfo o ON c.operatorID = o.operatorID
 INNER JOIN DepartmentInfo d ON c.departmentID = d.departmentID

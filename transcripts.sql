@@ -1,9 +1,9 @@
 SELECT
-CAST(chatMessageID as varchar(255)) as messageID,
-CAST(chatID as varchar(255)) as chatID,
-personType,
+CAST(chatMessageID as varchar(255)) as message_id,
+CAST(chatID as varchar(255)) as chat_id,
+personType as person_type,
 name,
-text,
-created AS createdAt
+created AS created_at,
+text
 FROM ChatMessageInfo
 WHERE chatID = @chatID
