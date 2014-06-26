@@ -1,1 +1,0 @@
-export DATABASE_URL='postgres://admin:@localhost:5432/boulder'
