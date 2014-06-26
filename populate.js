@@ -1,4 +1,5 @@
 // jshint esnext: true
+console.time('time');
 var _s     = require('underscore.string');
 var fs     = require('fs');
 var co     = require('co');
@@ -97,5 +98,6 @@ co(function *() {
     } finally {
         connection.close();
         client.end();
+        console.timeEnd('time');
     }
 })();
