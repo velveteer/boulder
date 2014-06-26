@@ -28,7 +28,6 @@ co(function *() {
     var chatsStream = client.copyFrom(chatsCopyFrom);
     var transStream = client.copyFrom(transCopyFrom);
 
-
     // Connect to MSSQL
     var connection = new mssql.Connection({
         user     : process.env.DW_USER,
@@ -81,7 +80,7 @@ co(function *() {
                 text = _s.stripTags(text);
                 text = text.replace(/[&]nbsp[;]/gi, ' ');
                 text = text.replace(/\r?\n|\r|\t/g, ' ');
-                text = text.replace(/\"|\'/g, '');
+                text = text.replace(/\\/g, '');
                 transStream.write(t.message_id + '\t');
                 transStream.write(t.chat_id + '\t');
                 transStream.write(t.person_type + '\t');
