@@ -51,7 +51,7 @@ co(function *() {
             var c = recordset[record];
             process.stdout.write('Inserting chat_id ' + c.chat_id + '\r');
             results.push(c.chat_id);
-            c.answered_at = moment(c.answered_at).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+            c.answered_at = moment(c.answered_at).format('YYYY-MM-DDThh:mm:ssZ');
             for (var key in c) {
                 if (key === 'chat_status') {
                     chatsStream.write(c[key] + '\n');
@@ -74,7 +74,7 @@ co(function *() {
             for (var tran in tranSet) {
                 var t = tranSet[tran];
                 ++transcripts;
-                t.created_at = moment(t.created_at).format('YYYY-MM-DDTHH:mm:ss.SSSZZ');
+                t.created_at = moment(t.created_at).format('YYYY-MM-DDThh:mm:ssZ');
                 // Strip HTML from transcript text, thanks BoldChat
                 var text = t.text;
                 text = _s.unescapeHTML(text);
