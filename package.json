@@ -18,11 +18,8 @@
   "homepage": "https://github.com/velveteer/boulder",
   "dependencies": {
     "co": "~3.0.5",
-    "co-monk": "~1.0.0",
     "co-mssql": "~0.1.1",
     "co-pg": "^1.2.3",
-    "koa": "^0.5.2",
-    "koa-route": "^1.1.1",
     "moment": "~2.5.1",
     "monk": "~0.8.1",
     "pg": "^3.3.0",

@@ -8,11 +8,11 @@ var mssql  = require('co-mssql');
 var pg     = require('co-pg')(require('pg'));
 
 // Load SQL into memory
-var chatSql       = fs.readFileSync('chats.sql', 'utf-8');
-var tranSql       = fs.readFileSync('transcripts.sql', 'utf-8');
-var createTable   = fs.readFileSync('schema.sql', 'utf-8');
-var chatsCopyFrom = fs.readFileSync('chatsCopyFrom.sql', 'utf-8');
-var transCopyFrom = fs.readFileSync('transCopyFrom.sql', 'utf-8');
+var chatSql       = fs.readFileSync('sql/chats.sql', 'utf-8');
+var tranSql       = fs.readFileSync('sql/transcripts.sql', 'utf-8');
+var createTable   = fs.readFileSync('sql/schema.sql', 'utf-8');
+var chatsCopyFrom = fs.readFileSync('sql/chatsCopyFrom.sql', 'utf-8');
+var transCopyFrom = fs.readFileSync('sql/transCopyFrom.sql', 'utf-8');
 
 // Grab date so we can pull chats per day
 var day   = moment().format('DD');
